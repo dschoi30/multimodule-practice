@@ -6,16 +6,27 @@ import dev.be.modulecommon.enums.CodeEnum;
 import dev.be.modulecommon.repositories.MemberRepository;
 import dev.be.modulecommon.service.CommonDemoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class DemoService {
 
+    @Value("${profile-name}")
+    private String name;
+
     private final CommonDemoService commonDemoService;
     private final MemberRepository memberRepository;
 
     public String save() {
+        System.out.println("name : " + name);
+//        if(name.equals("local")) {
+//            // aaa
+//        } else {
+//            // bbb
+//        }
+
         memberRepository.save(Member.builder()
                 .name(Thread.currentThread().getName())
                 .build());
@@ -36,3 +47,6 @@ public class DemoService {
         return "exception";
     }
 }
+
+// intellij의 edit configuration으로 profile 설정 또는 아래의 방법으로 설정
+// java -jar -Dspring.profiles.active=local module-api-0.0.1-SNAPSHOT.jar
